@@ -23,4 +23,4 @@ WORKDIR /
 RUN rm -rf $BASEDIR/shadowsocks-libev\
  && apt-get --purge autoremove -y $DEPENDENCIES
 
-ENTRYPOINT ["/usr/bin/ss-server"]
+ENTRYPOINT ["/usr/local/bin/ss-server"]
