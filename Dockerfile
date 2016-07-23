@@ -1,19 +1,26 @@
 FROM ubuntu:latest
-MAINTAINER Przemek Szalko <przemek@mobtitude.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y pptpd iptables rsyslog
+MAINTAINER basherone <basherone123@gmail.com>
 
-COPY ./etc/pptpd.conf /etc/pptpd.conf
-COPY ./etc/ppp/pptpd-options /etc/ppp/pptpd-options
-COPY ./etc/ppp/chap-secrets /etc/ppp/chap-secrets
+ENV DEPENDENCIES git-core build-essential autoconf libtool libssl-dev
+ENV BASEDIR /tmp/shadowsocks-libev
+ENV VERSION v2.4.8
 
-COPY pptpconfig /etc/init.d/pptpconfig
-RUN chmod 0777 /etc/init.d/pptpconfig
-RUN update-rc.d pptpconfig defaults
+# Set up building environment
+RUN apt-get update \
+ && apt-get install -y $DEPENDENCIES
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod 0777 /entrypoint.sh
+# Get the latest code, build and install
+RUN git clone https://github.com/shadowsocks/shadowsocks-libev.git $BASEDIR
+WORKDIR $BASEDIR
+RUN git checkout $VERSION \
+ && ./configure \
+ && make \
+ && make install
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["pptpd", "--fg"]
+# Tear down building environment and delete git repository
+WORKDIR /
+RUN rm -rf $BASEDIR/shadowsocks-libev\
+ && apt-get --purge autoremove -y $DEPENDENCIES
+
+ENTRYPOINT ["/usr/bin/ss-server"]
