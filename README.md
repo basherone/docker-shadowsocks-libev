@@ -2,7 +2,7 @@ docker-shadowsocks-libev
 ========
 How to use
 --------
-    docker run -d -p [port]:[port] basherone/docker-shadowsocks-libev -s 0.0.0.0 -p [port] -k [password] -m aes-256-cfb
+    docker run -d -p [port]:[port] basher/docker-shadowsocks-libev -s 0.0.0.0 -p [port] -k [password] -m aes-256-cfb
 You need to set a port and password to run this images.
 Just replace [port] and [password].
 

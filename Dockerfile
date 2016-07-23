@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 MAINTAINER basherone <basherone123@gmail.com>
 
-ENV DEPENDENCIES git-core build-essential autoconf libtool libssl-dev
+ENV DEPENDENCIES git-core build-essential autoconf libtool libssl-dev asciidoc
 ENV BASEDIR /tmp/shadowsocks-libev
 ENV VERSION v2.4.8
 
