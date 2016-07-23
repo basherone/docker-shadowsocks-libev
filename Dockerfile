@@ -21,6 +21,7 @@ RUN git checkout $VERSION \
 # Tear down building environment and delete git repository
 WORKDIR /
 RUN rm -rf $BASEDIR/shadowsocks-libev\
- && apt-get --purge autoremove -y $DEPENDENCIES
+ && apt-get --purge autoremove -y $DEPENDENCIES\
+ && apt-get clean
 
 ENTRYPOINT ["/usr/local/bin/ss-server"]
